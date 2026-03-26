@@ -3,8 +3,8 @@
 An end-to-end data engineering and analytics project analyzing nearly 100,000 orders from the Olist Brazilian e-commerce dataset. This project demonstrates a complete ETL (Extract, Transform, Load) pipeline, culminating in an interactive web dashboard for business intelligence.
 
 ## Dashboard Preview
-![Dashboard Preview](dashboard-sc-1.png)
-![Dashboard Preview](dashboard-sc-2.png)
+![Dashboard Preview](Dashboard-sc-1.png)
+![Dashboard Preview](Dashboard-sc-2.png)
 
 ## Tech Stack
 * **Language:** Python
