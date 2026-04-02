@@ -5,7 +5,8 @@ An end-to-end data engineering and analytics project analyzing nearly 100,000 or
 ## Dashboard Preview
 ![Dashboard Preview](Dashboard-sc-1.png)
 ![Dashboard Preview](Dashboard-sc-2.png)
-
+![Dashboard Preview](Dashboard-sc-3.png)
+![Dashboard Preview](Dashboard-sc-4.png)
 ## Tech Stack
 * **Language:** Python
 * **Data Processing:** Pandas

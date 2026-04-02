@@ -35,4 +35,41 @@ st.subheader("Non-delivered orders distribution")
 #To do this, we eliminate the highly sucessful delivered bar so the resto f the data is easier to analyse:
 exception = status_df[status_df["order_status"] != "delivered"]
 st.bar_chart(exception.set_index("order_status"))
+
+st.divider()
+st.subheader("Peak sales periods(Time series)")
+st.markdown("Traking monthly order volumes to identify seasonal data patterns")
+
+sales_query = """
+SELECT strftime('%Y-%m',order_purchase_timestamp) AS order_month,
+    COUNT(order_id) AS total_orders
+FROM orders_customers
+WHERE order_purchase_timestamp IS NOT NULL
+GROUP BY order_month
+ORDER BY order_month
+"""
+sales_trend_df = pd.read_sql(sales_query,conn)
+st.line_chart(sales_trend_df.set_index("order_month"))
+
+st.divider()
+st.header("Delivery bottlenecks")
+st.markdown("5 Staes with most delivery bottlenecks")
+bottle_query = """
+SELECT
+    customer_state,
+    COUNT(order_id) AS total_orders,
+    SUM(CASE WHEN order_delivered_customer_date>order_estimated_delivery_date THEN 1 ELSE 0 END) AS late_orders,
+    ROUND((SUM(CASE WHEN order_delivered_customer_date>order_estimated_delivery_date THEN 1 ELSE 0 END)*100.0/COUNT(order_id)),2) AS delay_percentage
+FROM orders_customers
+WHERE order_status = 'delivered'
+    AND order_delivered_customer_date IS NOT NULL
+    AND order_estimated_delivery_date IS NOT NULL
+GROUP BY customer_state
+HAVING total_orders>100
+ORDER BY delay_percentage DESC
+LIMIT 5        
+"""
+delay_df = pd.read_sql(bottle_query, conn)
+st.bar_chart(delay_df.set_index("customer_state")["delay_percentage"])
+
 conn.close()
